@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本のガス業界 詳細相関図</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            padding-bottom: 20px;
+            border-bottom: 4px solid #3498db;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+        
+        .overview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .overview h2 {
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .overview-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .overview-item strong {
+            display: block;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        
+        .layer {
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .layer-header {
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .layer-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: inherit;
+            opacity: 0.9;
+            z-index: 0;
+        }
+        
+        .layer-header > * {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .layer1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .layer2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .layer3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .layer4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .layer5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .layer6 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+        .layer7 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #2c3e50 !important; }
+        
+        .layer-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .layer-description {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #3498db;
+            position: relative;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .card-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .card-info {
+            margin-bottom: 8px;
+            color: #34495e;
+            font-size: 0.95em;
+        }
+        
+        .card-info strong {
+            color: #2c3e50;
+            display: inline-block;
+            min-width: 90px;
+        }
+        
+        .card-tag {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            margin-right: 5px;
+            margin-top: 8px;
+        }
+        
+        .process-flow {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .process-flow h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+        
+        .flow-diagram {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .flow-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            min-width: 150px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .flow-box strong {
+            display: block;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .flow-arrow {
+            font-size: 2em;
+            color: #3498db;
+        }
+        
+        .contract-section {
+            background: #fff3cd;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .contract-section h2 {
+            color: #856404;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .contract-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .contract-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .contract-item strong {
+            display: block;
+            color: #856404;
+            margin-bottom: 5px;
+            font-size: 1.05em;
+        }
+        
+        .solution-section {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .solution-section h2 {
+            color: #2e7d32;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .solution-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .solution-card h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #4caf50;
+            padding-bottom: 8px;
+        }
+        
+        .solution-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .solution-card li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #424242;
+        }
+        
+        .solution-card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .comparison-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .comparison-table th {
+            font-weight: bold;
+            font-size: 1.05em;
+        }
+        
+        .matrix-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .matrix-section h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+        
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 150px repeat(4, 1fr);
+            gap: 2px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .matrix-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        
+        .matrix-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .matrix-row-header {
+            background: #ecf0f1;
+            font-weight: bold;
+            text-align: left;
+        }
+        
+        .influence-high {
+            background: #ffebee !important;
+            color: #c62828;
+            font-weight: bold;
+        }
+        
+        .influence-medium {
+            background: #fff3e0 !important;
+            color: #ef6c00;
+        }
+        
+        .influence-low {
+            background: #e8f5e9 !important;
+            color: #2e7d32;
+        }
+        
+        .trend-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .trend-section h2 {
+            color: #1565c0;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .trend-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 5px solid #2196f3;
+        }
+        
+        .trend-item h3 {
+            color: #1565c0;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .card:hover {
+                transform: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .matrix-grid {
+                font-size: 0.8em;
+                grid-template-columns: 100px repeat(4, 1fr);
+            }
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 日本のガス業界 詳細相関図</h1>
+        <p class="subtitle">業界構造・契約プロセス・DX課題の網羅的可視化</p>
+        
+        <div class="overview">
+            <h2>業界概要</h2>
+            <p>日本のガス業界は、都市ガス事業とLPガス事業の2大セグメントで構成され、2017年のガス小売全面自由化により競争環境が大きく変化。エネルギー自由化時代における業界再編、保安体制の維持、脱炭素化への対応が主要課題となっている。</p>
+            <div class="overview-grid">
+                <div class="overview-item">
+                    <strong>市場規模</strong>
+                    都市ガス: 約2.7兆円<br>
+                    LPガス: 約2.0兆円
+                </div>
+                <div class="overview-item">
+                    <strong>事業者数</strong>
+                    都市ガス: 約200社<br>
+                    LPガス: 約17,000社
+                </div>
+                <div class="overview-item">
+                    <strong>需要家数</strong>
+                    都市ガス: 約3,100万件<br>
+                    LPガス: 約2,300万世帯
+                </div>
+                <div class="overview-item">
+                    <strong>自由化後の動向</strong>
+                    異業種参入増加<br>
+                    大手による統合加速
+                </div>
+            </div>
+        </div>
+
+        <!-- 第1層: ガス調達・製造 -->
+        <div class="layer">
+            <div class="layer-header layer1">
+                <div class="layer-title">第1層: ガス調達・製造層</div>
+                <div class="layer-description">
+                    LNGの輸入・調達、天然ガス・LPガスの製造を担う最上流層。国際市場との接点を持ち、エネルギー安全保障の要。長期契約による安定調達と価格交渉力が競争力の源泉。
+                </div>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">JERA（日本最大のLNG調達企業）</div>
+                    <div class="card-info"><strong>設立:</strong> 2015年（東京電力・中部電力の燃料調達統合）</div>
+                    <div class="card-info"><strong>LNG調達量:</strong> 年間約3,500万トン（国内需要の約40%）</div>
+                    <div class="card-info"><strong>事業:</strong> LNG調達・トレーディング、火力発電</div>
+                    <div class="card-info"><strong>特徴:</strong> 世界最大級のLNGバイヤー、グローバルトレーディング展開</div>
+                    <span class="card-tag">LNG調達</span>
+                    <span class="card-tag">国際トレード</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">石油資源開発（JAPEX）</div>
+                    <div class="card-info"><strong>売上高:</strong> 約3,200億円</div>
+                    <div class="card-info"><strong>従業員数:</strong> 約1,300名</div>
+                    <div class="card-info"><strong>事業:</strong> 国内天然ガス生産、石油・天然ガス開発</div>
+                    <div class="card-info"><strong>生産量:</strong> 国内天然ガス生産シェア約40%</div>
+                    <span class="card-tag">国産ガス</span>
+                    <span class="card-tag">上流開発</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">国際石油開発帝石（INPEX）</div>
+                    <div class="card-info"><strong>売上高:</strong> 約1.5兆円</div>
+                    <div class="card-info"><strong>従業員数:</strong> 約3,200名</div>
+                    <div class="card-info"><strong>事業:</strong> 石油・天然ガス開発（国内外）</div>
+                    <div class="card-info"><strong>主要プロジェクト:</strong> イクシスLNGプロジェクト（豪州）</div>
+                    <span class="card-tag">資源開発</span>
+                    <span class="card-tag">LNG生産</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">主要LPガス元売</div>
+                    <div class="card-info"><strong>主要企業:</strong> ENEOSグローブ、ジクシス、アストモスエネルギー</div>
+                    <div class="card-info"><strong>輸入量:</strong> 年間約1,200万トン</div>
+                    <div class="card-info"><strong>調達先:</strong> 中東（サウジ、UAE）、米国</div>
+                    <div class="card-info"><strong>特徴:</strong> 石油元売との資本関係、輸入基地運営</div>
+                    <span class="card-tag">LPG輸入</span>
+                    <span class="card-tag">一次卸</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第2層: 大手都市ガス事業者 -->
+        <div class="layer">
+            <div class="layer-header layer2">
+                <div class="layer-title">第2層: 大手都市ガス事業者（導管・小売統合）</div>
+                <div class="layer-description">
+                    導管網を保有し、製造・供給・小売を一貫して行う大手事業者。地域独占時代から続く強固なインフラ資産と顧客基盤を持つ。自由化後は電力・再エネ事業への多角化を推進。
+                </div>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">東京ガス</div>
+                    <div class="card-info"><strong>売上高:</strong> 約2.3兆円（2023年度）</div>
+                    <div class="card-info"><strong>従業員数:</strong> 約17,500名（連結）</div>
+                    <div class="card-info"><strong>顧客数:</strong> 都市ガス約1,190万件、電力約286万件</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 東京都・神奈川・埼玉・千葉・茨城・栃木・群馬</div>
+                    <div class="card-info"><strong>特徴:</strong> 国内最大手、電力小売2位、再エネ投資積極化</div>
+                    <span class="card-tag">業界首位</span>
+                    <span class="card-tag">電力進出</span>
+                    <span class="card-tag">総合エネルギー</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">大阪ガス</div>
+                    <div class="card-info"><strong>売上高:</strong> 約1.8兆円</div>
+                    <div class="card-info"><strong>従業員数:</strong> 約20,700名（連結）</div>
+                    <div class="card-info"><strong>顧客数:</strong> 都市ガス約730万件、電力約179万件</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 大阪府・京都府・兵庫・奈良・滋賀・和歌山</div>
+                    <div class="card-info"><strong>特徴:</strong> 関西圏最大、不動産・エンジニアリング事業も展開</div>
+                    <span class="card-tag">関西基盤</span>
+                    <span class="card-tag">多角化</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">東邦ガス</div>
+                    <div class="card-info"><strong>売上高:</strong> 約7,800億円</div>
+                    <div class="card-info"><strong>従業員数:</strong> 約7,900名（連結）</div>
+                    <div class="card-info"><strong>顧客数:</strong> 都市ガス約315万件、電力約69万件</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 愛知・岐阜・三重（中京圏）</div>
+                    <div class="card-info"><strong>特徴:</strong> 中京圏最大、トヨタグループとの関係深い</div>
+                    <span class="card-tag">中京圏</span>
+                    <span class="card-tag">産業用強み</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">西部ガス</div>
+                    <div class="card-info"><strong>売上高:</strong> 約2,600億円</div>
+                    <div class="card-info"><strong>従業員数:</strong> 約2,800名（連結）</div>
+                    <div class="card-info"><strong>顧客数:</strong> 都市ガス約136万件</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 福岡・熊本・長崎</div>
+                    <div class="card-info"><strong>特徴:</strong> 九州最大手、LNG基地保有</div>
+                    <span class="card-tag">九州基盤</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">北海道ガス</div>
+                    <div class="card-info"><strong>売上高:</strong> 約1,400億円</div>
+                    <div class="card-info"><strong>顧客数:</strong> 都市ガス約84万件</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 札幌圏、函館、小樽など</div>
+                    <div class="card-info"><strong>特徴:</strong> 寒冷地需要、石狩LNG基地</div>
+                    <span class="card-tag">北海道</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">静岡ガス</div>
+                    <div class="card-info"><strong>売上高:</strong> 約1,100億円</div>
+                    <div class="card-info"><strong>顧客数:</strong> 約44万件</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 静岡市、清水、富士など</div>
+                    <div class="card-info"><strong>特徴:</strong> 中堅大手、地域密着型経営</div>
+                    <span class="card-tag">地域大手</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第3層: 中堅都市ガス事業者 -->
+        <div class="layer">
+            <div class="layer-header layer3">
+                <div class="layer-title">第3層: 中堅・地域都市ガス事業者</div>
+                <div class="layer-description">
+                    地方都市を中心に展開する中堅事業者。顧客数5万～30万件規模。大手からのガス卸供給を受けるケースも多く、地域インフラ企業としての役割を担う。
+                </div>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">京葉ガス</div>
+                    <div class="card-info"><strong>売上高:</strong> 約800億円</div>
+                    <div class="card-info"><strong>顧客数:</strong> 約33万件</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 千葉県（市川、船橋など）</div>
+                    <div class="card-info"><strong>特徴:</strong> 東京ガスから導管供給</div>
+                    <span class="card-tag">関東圏</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">広島ガス</div>
+                    <div class="card-info"><strong>売上高:</strong> 約600億円</div>
+                    <div class="card-info"><strong>顧客数:</strong> 約30万件</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 広島市・呉市など</div>
+                    <div class="card-info"><strong>特徴:</strong> 中国地方最大</div>
+                    <span class="card-tag">中国地方</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">仙台市ガス局</div>
+                    <div class="card-info"><strong>種別:</strong> 公営ガス事業</div>
+                    <div class="card-info"><strong>顧客数:</strong> 約29万件</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 仙台市</div>
+                    <div class="card-info"><strong>特徴:</strong> 東北最大の公営ガス</div>
+                    <span class="card-tag">公営</span>
+                    <span class="card-tag">東北</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">四国ガス</div>
+                    <div class="card-info"><strong>売上高:</strong> 約380億円</div>
+                    <div class="card-info"><strong>顧客数:</strong> 約17万件</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 香川、愛媛</div>
+                    <div class="card-info"><strong>特徴:</strong> 四国最大のガス事業者</div>
+                    <span class="card-tag">四国</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">その他中堅事業者</div>
+                    <div class="card-info"><strong>主要企業:</strong> 
+                    - 北陸ガス（新潟）<br>
+                    - 長野都市ガス<br>
+                    - 岡山ガス<br>
+                    - 河内長野ガス（大阪ガス傘下）<br>
+                    - 山口合同ガス
+                    </div>
+                    <span class="card-tag">地域密着</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第4層: ガス小売事業者（新電力・異業種） -->
+        <div class="layer">
+            <div class="layer-header layer4">
+                <div class="layer-title">第4層: ガス小売事業者（新規参入・異業種）</div>
+                <div class="layer-description">
+                    2017年の自由化により参入した小売専業事業者。導管網は保有せず、既存事業者の導管を利用。電力・通信などとのセット販売で差別化。
+                </div>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">ENEOS（旧JXTGエネルギー）</div>
+                    <div class="card-info"><strong>ガス顧客数:</strong> 約40万件（2023年）</div>
+                    <div class="card-info"><strong>戦略:</strong> 電気とのセット販売、SS網活用</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 関東・関西・中部</div>
+                    <div class="card-info"><strong>特徴:</strong> 石油元売最大手の総合エネルギー化</div>
+                    <span class="card-tag">石油系</span>
+                    <span class="card-tag">総合エネ</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">関西電力</div>
+                    <div class="card-info"><strong>ガス顧客数:</strong> 約51万件</div>
+                    <div class="card-info"><strong>戦略:</strong> 大阪ガスエリアへの攻勢</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 関西圏</div>
+                    <div class="card-info"><strong>特徴:</strong> 電気とセット、関電ガスブランド</div>
+                    <span class="card-tag">電力系</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">中部電力ミライズ</div>
+                    <div class="card-info"><strong>ガス顧客数:</strong> 約33万件</div>
+                    <div class="card-info"><strong>戦略:</strong> 東邦ガスエリアでの競争</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 中部圏</div>
+                    <div class="card-info"><strong>特徴:</strong> カテエネポイント連携</setail>
+                    <span class="card-tag">電力系</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">CDエナジーダイレクト</div>
+                    <div class="card-info"><strong>出資:</strong> 中部電力×大阪ガス合弁</div>
+                    <div class="card-info"><strong>顧客数:</strong> 約78万件（電気+ガス）</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 首都圏</div>
+                    <div class="card-info"><strong>特徴:</strong> 東京ガスエリアで攻勢</div>
+                    <span class="card-tag">合弁</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">楽天エナジー</div>
+                    <div class="card-info"><strong>戦略:</strong> 楽天経済圏との連携</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 関東・関西</div>
+                    <div class="card-info"><strong>特徴:</strong> ポイント還元、デジタル完結</div>
+                    <span class="card-tag">IT系</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">ニチガス（日本瓦斯）</div>
+                    <div class="card-info"><strong>売上高:</strong> 約1,500億円</div>
+                    <div class="card-info"><strong>特徴:</strong> LPガス大手から都市ガス参入</div>
+                    <div class="card-info"><strong>供給エリア:</strong> 関東</div>
+                    <div class="card-info"><strong>顧客数:</strong> LPガス約50万件+都市ガス</div>
+                    <span class="card-tag">LPガス系</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第5層: LPガス卸売・二次卸 -->
+        <div class="layer">
+            <div class="layer-header layer5">
+                <div class="layer-title">第5層: LPガス卸売・二次卸売事業者</div>
+                <div class="layer-description">
+                    LPガス元売から仕入れ、地域の小売事業者（販売店）へ供給する中間流通層。充填所を運営し、ボンベへの充填・配送を担う。地域ごとに複数の卸売事業者が存在。
+                </div>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">岩谷産業</div>
+                    <div class="card-info"><strong>売上高:</strong> 約9,000億円（全社）</div>
+                    <div class="card-info"><strong>LPガス取扱量:</strong> 年間約160万トン</div>
+                    <div class="card-info"><strong>事業:</strong> LPガス卸売・小売、水素事業</div>
+                    <div class="card-info"><strong>特徴:</strong> LPガス最大手、全国ネットワーク</div>
+                    <span class="card-tag">業界最大手</span>
+                    <span class="card-tag">水素先駆</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">伊藤忠エネクス</div>
+                    <div class="card-info"><strong>売上高:</strong> 約1.2兆円</div>
+                    <div class="card-info"><strong>LPガス販売量:</strong> 年間約70万トン</div>
+                    <div class="card-info"><strong>事業:</strong> LPガス・石油製品卸売、カーライフ</div>
+                    <div class="card-info"><strong>特徴:</strong> 伊藤忠商事系、幅広い販売網</div>
+                    <span class="card-tag">商社系</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">ミツウロコグループHD</div>
+                    <div class="card-info"><strong>売上高:</strong> 約2,000億円</div>
+                    <div class="card-info"><strong>事業:</strong> LPガス卸売・小売、電力小売</div>
+                    <div class="card-info"><strong>特徴:</strong> 老舗独立系、関東基盤</div>
+                    <span class="card-tag">独立系</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">サイサン</div>
+                    <div class="card-info"><strong>売上高:</strong> 約1,000億円</div>
+                    <div class="card-info"><strong>顧客数:</strong> 約50万件</div>
+                    <div class="card-info"><strong>事業:</strong> LPガス販売、宅配水</div>
+                    <div class="card-info"><strong>特徴:</strong> 埼玉地盤、ガスワン展開</div>
+                    <span class="card-tag">地域大手</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">地域卸売事業者</div>
+                    <div class="card-info"><strong>主要企業:</strong>
+                    - トーエル（神奈川）<br>
+                    - 東日本ガス（茨城・栃木）<br>
+                    - 河原実業（北陸）<br>
+                    - 中国液化ガス（中国地方）<br>
+                    - 九州液化ガス（九州）
+                    </div>
+                    <span class="card-tag">地域密着</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第6層: LPガス小売販売店 -->
+        <div class="layer">
+            <div class="layer-header layer6">
+                <div class="layer-title">第6層: LPガス小売販売店</div>
+                <div class="layer-description">
+                    最終消費者（家庭・業務用）に直接LPガスを販売・配送する事業者。全国約17,000社が存在し、平均顧客数は約100～1,000件程度。地域密着型の小規模事業者が大半で、保安点検・ボンベ交換など地域インフラを支える。
+                </div>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">大手販売店（直販体制）</div>
+                    <div class="card-info"><strong>代表例:</strong> 
+                    - 岩谷産業の直販部門<br>
+                    - ENEOSグローブの直販<br>
+                    - 伊藤忠エネクスホームライフ
+                    </div>
+                    <div class="card-info"><strong>顧客規模:</strong> 数万～十数万件</div>
+                    <div class="card-info"><strong>特徴:</strong> 卸売兼業、広域展開</div>
+                    <span class="card-tag">大規模</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">中堅販売店</div>
+                    <div class="card-info"><strong>顧客規模:</strong> 1,000～10,000件</div>
+                    <div class="card-info"><strong>特徴:</strong> 
+                    - 複数市町村をカバー<br>
+                    - 配送効率化投資<br>
+                    - Web受付・決済対応
+                    </div>
+                    <div class="card-info"><strong>課題:</strong> 人手不足、顧客減少、価格競争</div>
+                    <span class="card-tag">地域中核</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">小規模販売店</div>
+                    <div class="card-info"><strong>顧客規模:</strong> 100～1,000件</div>
+                    <div class="card-info"><strong>特徴:</strong> 
+                    - 1～2市町村が営業範囲<br>
+                    - 家族経営中心<br>
+                    - 高齢化・後継者不足
+                    </div>
+                    <div class="card-info"><strong>強み:</strong> 地域密着、顧客との信頼関係</div>
+                    <span class="card-tag">零細</span>
+                    <span class="card-tag">事業承継課題</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">業務</div>
+                    <div class="card-info"><strong>主要業務:</strong>
+                    - ボンベ配送・交換<br>
+                    - 法定点検（4年に1回）<br>
+                    - 緊急対応（24時間）<br>
+                    - 機器販売・メンテナンス<br>
+                    - 検針・請求
+                    </div>
+                    <span class="card-tag">保安責任</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第7層: 関連事業者・支援企業 -->
+        <div class="layer">
+            <div class="layer-header layer7">
+                <div class="layer-title">第7層: 関連事業者・支援企業</div>
+                <div class="layer-description">
+                    ガス業界を支える周辺産業。ガス機器メーカー、保安検査機関、システムベンダー、物流事業者、金融機関など。業界のDX化において重要な役割を担う。
+                </div>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">ガス機器メーカー</div>
+                    <div class="card-info"><strong>主要企業:</strong>
+                    - リンナイ（売上約4,500億円）<br>
+                    - ノーリツ（売上約1,900億円）<br>
+                    - パロマ（売上約800億円）<br>
+                    - ハーマン（Rinnai傘下）
+                    </div>
+                    <div class="card-info"><strong>製品:</strong> ガスコンロ、給湯器、暖房機器</div>
+                    <span class="card-tag">製造</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">保安検査機関</div>
+                    <div class="card-info"><strong>主要企業:</strong>
+                    - 高圧ガス保安協会（KHK）<br>
+                    - 日本ガス機器検査協会（JIA）<br>
+                    - 各地方のLPガス協会
+                    </div>
+                    <div class="card-info"><strong>役割:</strong> 保安基準策定、検査、教育</div>
+                    <span class="card-tag">保安</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">システムベンダー</div>
+                    <div class="card-info"><strong>提供システム:</strong>
+                    - 顧客管理システム<br>
+                    - 配送管理システム<br>
+                    - 検針システム（スマートメーター）<br>
+                    - 請求・会計システム
+                    </div>
+                    <div class="card-info"><strong>主要企業:</strong> NTTデータ、富士通、日立など</div>
+                    <span class="card-tag">IT</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">物流・ボンベ関連</div>
+                    <div class="card-info"><strong>事業:</strong>
+                    - ボンベ製造（日本容器工業など）<br>
+                    - ボンベ検査・整備<br>
+                    - 配送車両リース<br>
+                    - 充填所機器メーカー
+                    </div>
+                    <span class="card-tag">物流</span>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">金融機関</div>
+                    <div class="card-info"><strong>サービス:</strong>
+                    - 設備投資融資<br>
+                    - M&A仲介<br>
+                    - 事業承継支援<br>
+                    - リース・ファイナンス
+                    </div>
+                    <div class="card-info"><strong>主要:</strong> メガバンク、地銀、政策金融公庫</div>
+                    <span class="card-tag">金融</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 業務プロセスフロー -->
+        <div class="process-flow">
+            <h2>📋 ガス業界の業務プロセスフロー</h2>
+            
+            <h3 style="color: #2c3e50; margin: 30px 0 20px 0; font-size: 1.4em;">【都市ガス事業】</h3>
+            <div class="flow-diagram">
+                <div class="flow-box">
+                    <strong>LNG調達</strong>
+                    長期契約締結<br>
+                    価格交渉<br>
+                    船舶手配
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">
+                    <strong>受入・製造</strong>
+                    LNG基地受入<br>
+                    気化・熱量調整<br>
+                    付臭処理
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">
+                    <strong>導管供給</strong>
+                    圧力管理<br>
+                    導管維持管理<br>
+                    供給監視
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">
+                    <strong>小売営業</strong>
+                    契約締結<br>
+                    開栓作業<br>
+                    機器販売
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">
+                    <strong>検針・請求</strong>
+                    月次検針<br>
+                    使用量計算<br>
+                    請求書発行
+                </div>
+            </div>
+            
+            <h3 style="color: #2c3e50; margin: 30px 0 20px 0; font-size: 1.4em;">【LPガス事業】</h3>
+            <div class="flow-diagram">
+                <div class="flow-box">
+                    <strong>輸入・仕入</strong>
+                    元売から仕入<br>
+                    輸入基地受取<br>
+                    在庫管理
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">
+                    <strong>充填</strong>
+                    ボンベ検査<br>
+                    LPG充填<br>
+                    計量検査
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">
+                    <strong>配送</strong>
+                    配送計画<br>
+                    ボンベ交換<br>
+                    残量確認
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">
+                    <strong>保安点検</strong>
+                    4年毎点検<br>
+                    機器確認<br>
+                    報告書作成
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-box">
+                    <strong>請求・回収</strong>
+                    検針<br>
+                    請求書発行<br>
+                    入金管理
+                </div>
+            </div>
+        </div>
+
+        <!-- 契約書類型 -->
+        <div class="contract-section">
+            <h2>📄 ガス業界で発生する契約書類型（網羅版）</h2>
+            <div class="contract-list">
+                <div class="contract-item">
+                    <strong>1. LNG売買契約</strong>
+                    輸入元との長期購入契約（10～20年）、価格決定条項、Take or Pay条項
+                </div>
+                <div class="contract-item">
+                    <strong>2. ガス卸供給契約</strong>
+                    大手→中堅事業者、導管託送契約、供給量・圧力条件
+                </div>
+                <div class="contract-item">
+                    <strong>3. 導管託送供給契約</strong>
+                    自由化後の新規小売事業者向け、託送料金、供給条件
+                </div>
+                <div class="contract-item">
+                    <strong>4. ガス需給契約（小売契約）</strong>
+                    最終顧客との供給契約、料金体系、供給約款
+                </div>
+                <div class="contract-item">
+                    <strong>5. LPガス売買基本契約</strong>
+                    元売・卸売間の取引基本契約、価格改定条項
+                </div>
+                <div class="contract-item">
+                    <strong>6. LPガス販売契約</strong>
+                    販売店と顧客、設備賃貸借契約（無償貸与含む）
+                </div>
+                <div class="contract-item">
+                    <strong>7. 保安業務委託契約</strong>
+                    点検業務の外部委託、緊急対応条項
+                </div>
+                <div class="contract-item">
+                    <strong>8. 工事請負契約</strong>
+                    導管工事、ガス管引き込み工事、内管工事
+                </div>
+                <div class="contract-item">
+                    <strong>9. 機器販売契約</strong>
+                    給湯器・コンロ等の販売、設置工事、保証条件
+                </div>
+                <div class="contract-item">
+                    <strong>10. 保守メンテナンス契約</strong>
+                    機器の定期保守、故障対応、部品交換
+                </div>
+                <div class="contract-item">
+                    <strong>11. 業務委託契約</strong>
+                    検針業務、カスタマーセンター、配送業務の外部委託
+                </div>
+                <div class="contract-item">
+                    <strong>12. システム利用契約</strong>
+                    顧客管理システム、検針システムのSaaS利用
+                </div>
+                <div class="contract-item">
+                    <strong>13. M&A関連契約</strong>
+                    株式譲渡契約、事業譲渡契約、合併契約（業界再編時）
+                </div>
+                <div class="contract-item">
+                    <strong>14. 不動産賃貸借契約</strong>
+                    LNG基地用地、充填所用地、営業所・支店
+                </div>
+                <div class="contract-item">
+                    <strong>15. 雇用・派遣契約</strong>
+                    正社員雇用契約、パート・アルバイト契約、人材派遣契約
+                </div>
+                <div class="contract-item">
+                    <strong>16. 金融取引契約</strong>
+                    融資契約、コミットメントライン契約、リース契約
+                </div>
+                <div class="contract-item">
+                    <strong>17. 保険契約</strong>
+                    施設賠償責任保険、生産物賠償責任保険、火災保険
+                </div>
+                <div class="contract-item">
+                    <strong>18. 秘密保持契約（NDA）</strong>
+                    業務提携時、M&A時、システム開発時
+                </div>
+                <div class="contract-item">
+                    <strong>19. 電力販売契約</strong>
+                    電力小売参入に伴う顧客との電気供給契約
+                </div>
+                <div class="contract-item">
+                    <strong>20. 代理店契約</strong>
+                    機器販売代理店、電力販売代理店との契約
+                </div>
+            </div>
+        </div>
+
+        <!-- DXソリューション -->
+        <div class="solution-section">
+            <h2>💡 ガス業界のDX課題とソリューション</h2>
+            
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <h3>🔐 電子契約による解決</h3>
+                    <ul>
+                        <li><strong>課題:</strong> 年間数十万件の契約書を紙で管理、押印・郵送に数日かかる</li>
+                        <li><strong>課題:</strong> LPガス販売店の高齢化により、紙ベース業務が重荷に</li>
+                        <li><strong>課題:</strong> 契約更新時の書類往復で顧客に負担、スイッチング促進の阻害要因</li>
+                        <li><strong>解決:</strong> ガス需給契約・LPガス販売契約をWeb完結、開栓までの時間短縮</li>
+                        <li><strong>解決:</strong> 保守メンテナンス契約の自動更新、顧客の手間削減</li>
+                        <li><strong>解決:</strong> 卸供給契約・業務委託契約の迅速な締結、事業拡大スピード向上</li>
+                        <li><strong>効果:</strong> 契約締結期間を平均7日→1日に短縮、年間数千万円のコスト削減</li>
+                    </ul>
+                </div>
+                
+                <div class="solution-card">
+                    <h3>🤖 契約書AIレビューによる解決</h3>
+                    <ul>
+                        <li><strong>課題:</strong> 自由化後の新規契約フォーマット乱立、法務チェックが追いつかない</li>
+                        <li><strong>課題:</strong> 導管託送契約の条件審査に1件あたり数時間、法務部門の残業増加</li>
+                        <li><strong>課題:</strong> 中小LPガス販売店は法務専門人材不在、契約リスクの見落とし</li>
+                        <li><strong>課題:</strong> M&A時のデューデリジェンスで数千件の契約書レビューが必要</li>
+                        <li><strong>解決:</strong> AIが契約書の不利条項・欠落条項を自動検出、法務負担を80%削減</li>
+                        <li><strong>解決:</strong> 自社標準約款との差分を瞬時に比較、修正提案</li>
+                        <li><strong>解決:</strong> ガス事業法・液石法などの法令チェックを自動化</li>
+                        <li><strong>効果:</strong> 法務レビュー時間を1件2時間→15分に短縮、専門知識の民主化</li>
+                    </ul>
+                </div>
+                
+                <div class="solution-card">
+                    <h3>📁 契約書管理サービスによる解決</h3>
+                    <ul>
+                        <li><strong>課題:</strong> 大手は数百万件の顧客契約、紙で倉庫保管→検索に数時間</li>
+                        <li><strong>課題:</strong> 更新期限管理が属人化、更新漏れで供給停止トラブル発生</li>
+                        <li><strong>課題:</strong> 複数拠点（本社・支店・営業所）で契約書バラバラ管理、ガバナンス不全</li>
+                        <li><strong>課題:</strong> 災害時の契約書滅失リスク（LPガス充填所は全国分散）</li>
+                        <li><strong>課題:</strong> 監査・コンプライアンスチェック時に契約書収集に数週間</li>
+                        <li><strong>解決:</strong> クラウド一元管理で全契約を数秒で検索・閲覧可能に</li>
+                        <li><strong>解決:</strong> 更新期限の自動アラート、更新漏れゼロ化</li>
+                        <li><strong>解決:</strong> アクセス権限管理で本社・支店・営業所間の情報共有と統制両立</li>
+                        <li><strong>解決:</strong> 契約種別・取引先・金額でのダッシュボード可視化、経営判断支援</li>
+                        <li><strong>効果:</strong> 契約書検索時間を1件30分→10秒に、倉庫保管コストも削減</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 比較表 -->
+        <h2 style="color: #2c3e50; margin: 40px 0 20px 0; font-size: 1.8em; text-align: center;">📊 大手都市ガス事業者 業績比較</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>企業名</th>
+                    <th>売上高</th>
+                    <th>営業利益</th>
+                    <th>ガス顧客数</th>
+                    <th>電力顧客数</th>
+                    <th>従業員数（連結）</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>東京ガス</strong></td>
+                    <td>2兆3,000億円</td>
+                    <td>約1,100億円</td>
+                    <td>1,190万件</td>
+                    <td>286万件</td>
+                    <td>17,500名</td>
+                </tr>
+                <tr>
+                    <td><strong>大阪ガス</strong></td>
+                    <td>1兆8,000億円</td>
+                    <td>約900億円</td>
+                    <td>730万件</td>
+                    <td>179万件</td>
+                    <td>20,700名</td>
+                </tr>
+                <tr>
+                    <td><strong>東邦ガス</strong></td>
+                    <td>7,800億円</td>
+                    <td>約350億円</td>
+                    <td>315万件</td>
+                    <td>69万件</td>
+                    <td>7,900名</td>
+                </tr>
+                <tr>
+                    <td><strong>西部ガス</strong></td>
+                    <td>2,600億円</td>
+                    <td>約100億円</td>
+                    <td>136万件</td>
+                    <td>36万件</td>
+                    <td>2,800名</td>
+                </tr>
+                <tr>
+                    <td><strong>北海道ガス</strong></td>
+                    <td>1,400億円</td>
+                    <td>約50億円</td>
+                    <td>84万件</td>
+                    <td>17万件</td>
+                    <td>1,600名</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 力関係マトリクス -->
+        <div class="matrix-section">
+            <h2>🔗 ガス業界 力関係マトリクス</h2>
+            <p style="text-align: center; color: #7f8c8d; margin-bottom: 20px;">各層間の影響力・依存関係を可視化</p>
+            
+            <div class="matrix-grid">
+                <div class="matrix-cell matrix-header"></div>
+                <div class="matrix-cell matrix-header">LNG調達</div>
+                <div class="matrix-cell matrix-header">大手都市ガス</div>
+                <div class="matrix-cell matrix-header">中堅都市ガス</div>
+                <div class="matrix-cell matrix-header">LPガス卸</div>
+                
+                <div class="matrix-cell matrix-row-header">LNG調達層</div>
+                <div class="matrix-cell">-</div>
+                <div class="matrix-cell influence-high">★★★<br>価格決定力</div>
+                <div class="matrix-cell influence-medium">★★<br>間接影響</div>
+                <div class="matrix-cell influence-low">★<br>市況影響</div>
+                
+                <div class="matrix-cell matrix-row-header">大手都市ガス</div>
+                <div class="matrix-cell influence-medium">★★<br>購入量</div>
+                <div class="matrix-cell">-</div>
+                <div class="matrix-cell influence-high">★★★<br>卸供給</div>
+                <div class="matrix-cell influence-low">★<br>競合</div>
+                
+                <div class="matrix-cell matrix-row-header">中堅都市ガス</div>
+                <div class="matrix-cell influence-low">★<br>限定的</div>
+                <div class="matrix-cell influence-medium">★★<br>卸依存</div>
+                <div class="matrix-cell">-</div>
+                <div class="matrix-cell influence-low">★<br>競合</div>
+                
+                <div class="matrix-cell matrix-row-header">新規小売</div>
+                <div class="matrix-cell influence-low">★<br>なし</div>
+                <div class="matrix-cell influence-low">★<br>託送依存</div>
+                <div class="matrix-cell influence-low">★<br>顧客奪取</div>
+                <div class="matrix-cell influence-low">★<br>限定的</div>
+                
+                <div class="matrix-cell matrix-row-header">LPガス卸</div>
+                <div class="matrix-cell influence-medium">★★<br>調達依存</div>
+                <div class="matrix-cell influence-low">★<br>競合</div>
+                <div class="matrix-cell influence-low">★<br>競合</div>
+                <div class="matrix-cell">-</div>
+            </div>
+            <p style="margin-top: 15px; color: #7f8c8d; text-align: center;">
+                ★★★: 強い影響力 | ★★: 中程度の影響力 | ★: 弱い影響力
+            </p>
+        </div>
+
+        <!-- トレンド・展望 -->
+        <div class="trend-section">
+            <h2>🔮 業界トレンドと今後の展望</h2>
+            
+            <div class="trend-item">
+                <h3>1. 脱炭素化への対応</h3>
+                <p><strong>カーボンニュートラルメタン:</strong> 大手都市ガス各社がCO2排出権付きLNGの調達を拡大。東京ガスは2030年までに取扱量の20%をCNメタンに。</p>
+                <p><strong>水素混焼:</strong> 既存導管での水素混焼実証実験が進行中。2030年代の本格導入を目指す。</p>
+                <p><strong>合成メタン（e-methane）:</strong> 再エネ由来水素とCO2から製造する次世代燃料の研究開発加速。</p>
+            </div>
+            
+            <div class="trend-item">
+                <h3>2. 業界再編の加速</h3>
+                <p><strong>都市ガス:</strong> 中堅事業者の大手傘下入りが継続。経営効率化と保安体制維持の両立が課題。</p>
+                <p><strong>LPガス:</strong> 年間200～300社が廃業・M&A。後継者不在の小規模販売店の集約が急務。岩谷産業・サイサンなど大手による買収活発化。</p>
+                <p><strong>業界横断:</strong> 都市ガス×LPガスの垣根を越えた統合も視野に（地域インフラ企業化）。</p>
+            </div>
+            
+            <div class="trend-item">
+                <h3>3. デジタル化・DXの進展</h3>
+                <p><strong>スマートメーター:</strong> 2030年までに全戸設置目標。遠隔検針・見守りサービス展開。</p>
+                <p><strong>AI需要予測:</strong> 気象データ×過去実績でガス需要を高精度予測、調達最適化。</p>
+                <p><strong>RPA・AI活用:</strong> バックオフィス業務の自動化、人手不足対策。電子契約・契約管理システムの導入が加速。</p>
+            </div>
+            
+            <div class="trend-item">
+                <h3>4. エネルギーミックス戦略</h3>
+                <p><strong>電力とのセット販売:</strong> ガス大手による電力販売が定着。逆に電力会社のガス参入も進展。</p>
+                <p><strong>総合エネルギー企業化:</strong> 再エネ（太陽光・風力）への投資拡大。東京ガスは再エネ発電容量を2030年までに500万kWへ。</p>
+                <p><strong>蓄電池・VPP:</strong> 分散型エネルギーリソースの統合管理サービス展開。</p>
+            </div>
+            
+            <div class="trend-item">
+                <h3>5. 保安体制の高度化</h3>
+                <p><strong>IoT保安:</strong> ガス漏れセンサー・地震感知遮断装置の標準化。24時間監視体制。</p>
+                <p><strong>ドローン点検:</strong> 導管・LNG基地の点検にドローン活用、効率化と安全性向上。</p>
+                <p><strong>技能継承:</strong> ベテラン技術者の高齢化に対し、VR研修・デジタルマニュアル整備。</p>
+            </div>
+        </div>
+
+        <!-- フッター -->
+        <div style="margin-top: 60px; padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; color: white; text-align: center;">
+            <h3 style="margin-bottom: 15px; font-size: 1.5em;">📌 まとめ</h3>
+            <p style="font-size: 1.1em; line-height: 1.8;">
+                日本のガス業界は、2017年の自由化を契機に大きな転換期を迎えています。<br>
+                都市ガス大手3社（東京ガス・大阪ガス・東邦ガス）が市場の約60%を占め、<br>
+                LPガス業界では約17,000社の販売店が地域密着型サービスを提供しています。<br><br>
+                
+                <strong>今後の重要テーマ:</strong><br>
+                ① 脱炭素化（水素・合成メタン）<br>
+                ② 業界再編（M&A・事業承継）<br>
+                ③ DX推進（電子契約・AI・スマートメーター）<br>
+                ④ 総合エネルギー企業化（電力・再エネ）<br>
+                ⑤ 保安体制の維持・高度化<br><br>
+                
+                特にLPガス業界では、小規模販売店の高齢化・後継者不在が深刻な課題であり、<br>
+                <strong>電子契約・契約書管理システムの導入が業務効率化と事業承継円滑化の鍵</strong>となります。
+            </p>
+        </div>
+        
+        <div style="margin-top: 30px; text-align: center; color: #95a5a6; font-size: 0.9em;">
+            <p>最終更新: 2026年2月 | データ出典: 各社IR資料、経済産業省資源エネルギー庁、日本ガス協会、全国LPガス協会</p>
+        </div>
+    </div>
+</body>
+</html>
